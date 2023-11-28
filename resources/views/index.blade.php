@@ -55,7 +55,8 @@
                 <div class="col-lg-12">
                     <div class="hero-content text-center">
                         <h1 class="hero-title">Jasa Desain Bangunan Profesional</h1>
-                        <a href="#consult" class="tj-primary-btn">Konsultasi Gratis <i class="fa-light fa-arrow-right-long"></i></a>
+                        <a href="https://wa.me/082366807515" class="tj-primary-btn" target="_blank">Konsultasi Gratis <i
+                                class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -239,11 +240,9 @@
 
     <!-- pricing table  -->
     <section class="gallery-section bg-dark-light padding">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading text-center">
-                    <h2 class="section-title">Testimoni</h2>
-                </div>
+        <div class="col-lg-12">
+            <div class="section-heading text-center">
+                <h2 class="section-title">Daftar Paket</h2>
             </div>
         </div>
         <div class="pricing1">
@@ -267,7 +266,8 @@
                                     <li class="d-block py-1">Rencana Tatap Depan 3D</li>
                                 </ul>
                                 <div class="bottom-btn">
-                                    <a class="btn btn-success-gradiant btn-md text-white btn-block" href="#consult"><span>Konsultasi</span></a>
+                                    <a class="btn btn-success-gradiant btn-md text-white btn-block"
+                                        href="#consult"><span>Konsultasi</span></a>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +277,8 @@
                         <div class="card text-center card-shadow on-hover border-0 mb-4">
                             <div class="card-body font-14">
                                 <span
-                                    class="badge badge-inverse p-2 position-absolute price-badge font-weight-normal">Best Seller</span>
+                                    class="badge badge-inverse p-2 position-absolute price-badge font-weight-normal">Best
+                                    Seller</span>
                                 <h5 class="mt-3 mb-1">Promo Kedua</h5>
                                 <div class="pricing my-3">
                                     <span class="monthly display-5">Rp. 35.000</span>
@@ -290,9 +291,6 @@
                                     <li class="d-block py-2">Rencana Atap 3D</li>
                                     <li class="d-block py-2">Rencana Tampak Depan Fasad 3D</li>
                                 </ul>
-                                <div class="bottom-btn">
-                                    <a class="btn btn-danger-gradiant btn-md text-white btn-block" href="#consult"><span>Konsultasi</span></a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -313,7 +311,8 @@
                                     <li class="d-block py-2">Render 3D Interior</li>
                                 </ul>
                                 <div class="bottom-btn">
-                                    <a class="btn btn-success-gradiant btn-md text-white btn-block" href="#consult"><span>Konsultasi</span></a>
+                                    <a class="btn btn-success-gradiant btn-md text-white btn-block"
+                                        href="#consult"><span>Konsultasi</span></a>
                                 </div>
                             </div>
                         </div>

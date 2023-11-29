@@ -55,7 +55,7 @@
                 <div class="col-lg-12">
                     <div class="hero-content text-center">
                         <h1 class="hero-title">Jasa Desain Bangunan Profesional</h1>
-                        <a href="https://wa.me/082366807515" class="tj-primary-btn" target="_blank">Konsultasi Gratis <i
+                        <a href="https://wa.me/{{ $user->phone }}" class="tj-primary-btn" target="_blank">Konsultasi Gratis <i
                                 class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
             <div class="row">
                 <div class="col-lg-6 col-sm-6">
                     <div class="counter-item text-center">
-                        <h3 class="counter-title"><span class="odometer" data-count="412">0</span></h3>
+                        <h3 class="counter-title"><span class="odometer" data-count="{{ $user->clients }}">{{ $user->clients }}</span></h3>
                         <div class="counter-content">
                             <h4 class="counter-text">CLIENTS</h4>
                         </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="col-lg-6 col-sm-6">
                     <div class="counter-item text-center">
-                        <h3 class="counter-title"><span class="odometer" data-count="312">0</span></h3>
+                        <h3 class="counter-title"><span class="odometer" data-count="{{ $user->projects }}">{{ $user->projects }}</span></h3>
                         <div class="counter-content">
                             <h4 class="counter-text">PROJECT</h4>
                         </div>
@@ -131,18 +131,12 @@
                 <div class="col-lg-12">
                     <div class="plan-content">
                         <ul>
-                            <li>
-                                <h3>Project</h3>
-                                <h3>100%</h3>
-                            </li>
-                            <li>
-                                <h3>Interior Design</h3>
-                                <h3>90%</h3>
-                            </li>
-                            <li>
-                                <h3>Exterior Design</h3>
-                                <h3>80%</h3>
-                            </li>
+                            @foreach ($ability as $item)
+                                <li>
+                                    <h3>{{ $item->ability }}</h3>
+                                    <h3>{{ $item->percentage }}%</h3>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -164,46 +158,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="follow-item-wrap">
-                        <div class="follow-item">
-                            <div class="follow-thumb">
-                                <img src="{{ asset('front') }}/assets/img/images/follow-img-1.jpg" alt="img" />
+                        @foreach ($projects as $item)
+                            <div class="follow-item">
+                                <div class="follow-thumb">
+                                    <img src="{{ asset($item->photo) }}" alt="img" />
+                                </div>
+                                <div class="follow-icon"></div>
                             </div>
-                            <div class="follow-icon">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="follow-item">
-                            <div class="follow-thumb">
-                                <img src="{{ asset('front') }}/assets/img/images/follow-img-2.jpg" alt="img" />
-                            </div>
-                            <div class="follow-icon">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="follow-item">
-                            <div class="follow-thumb">
-                                <img src="{{ asset('front') }}/assets/img/images/follow-img-3.jpg" alt="img" />
-                            </div>
-                            <div class="follow-icon">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="follow-item">
-                            <div class="follow-thumb">
-                                <img src="{{ asset('front') }}/assets/img/images/follow-img-4.jpg" alt="img" />
-                            </div>
-                            <div class="follow-icon">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
-                        <div class="follow-item">
-                            <div class="follow-thumb">
-                                <img src="{{ asset('front') }}/assets/img/images/follow-img-5.jpg" alt="img" />
-                            </div>
-                            <div class="follow-icon">
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -221,15 +183,11 @@
                     </div>
                     <div class="beauly-gallery-wrap">
                         <div class="property-gallery owl-carousel">
-                            <div class="item photos">
-                                <img src="{{ asset('front') }}/assets/img/images/gallary-1.jpg" alt="gallery" />
-                            </div>
-                            <div class="item photos">
-                                <img src="{{ asset('front') }}/assets/img/images/gallary-1.jpg" alt="gallery" />
-                            </div>
-                            <div class="item photos">
-                                <img src="{{ asset('front') }}/assets/img/images/gallary-1.jpg" alt="gallery" />
-                            </div>
+                            @foreach ($testimoni as $item)
+                                <div class="item photos">
+                                    <img src="{{ asset($item->photo) }}" alt="gallery" />
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -396,7 +354,7 @@
                                             <li>
                                                 <i class="flaticon-pin"></i>
                                                 <h4 class="footer-info-heading">
-                                                    <span>Medan</span>
+                                                    <span>{{ $user->address }}</span>
                                                 </h4>
                                             </li>
                                         </ul>

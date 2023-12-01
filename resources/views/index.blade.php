@@ -208,73 +208,34 @@
                 <!-- Row  -->
                 <div class="row">
                     <!-- Column -->
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card text-center card-shadow on-hover border-0 mb-4">
-                            <div class="card-body font-14">
-                                <h5 class="mt-3 mb-1">Promo Paket Eksterior</h5>
-                                <div class="pricing my-3">
-                                    <span class="monthly display-5">Rp. 50.000</span>
-                                    <span class="monthly display-5">/m<sup>2</sup></span>
-                                </div>
-                                <ul class="list-inline">
-                                    <li class="d-block py-1">Denah 2D</li>
-                                    <li class="d-block py-1">Rencana Tata Ruang</li>
-                                    <li class="d-block py-1">Konsep Arsitektur</li>
-                                    <li class="d-block py-1">Rencana Atap 3D</li>
-                                    <li class="d-block py-1">Rencana Tatap Depan 3D</li>
-                                </ul>
-                                <div class="bottom-btn">
-                                    <a class="btn btn-success-gradiant btn-md text-white btn-block"
-                                        href="#consult"><span>Konsultasi</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card text-center card-shadow on-hover border-0 mb-4">
-                            <div class="card-body font-14">
-                                <span
-                                    class="badge badge-inverse p-2 position-absolute price-badge font-weight-normal">Best
-                                    Seller</span>
-                                <h5 class="mt-3 mb-1">Promo Kedua</h5>
-                                <div class="pricing my-3">
-                                    <span class="monthly display-5">Rp. 35.000</span>
-                                    <span class="monthly display-5">/m<sup>2</sup></span>
-                                </div>
-                                <ul class="list-inline">
-                                    <li class="d-block py-2">Denah 2D</li>
-                                    <li class="d-block py-2">Rencana Tata Ruang</li>
-                                    <li class="d-block py-2">Konsep Arsitektur</li>
-                                    <li class="d-block py-2">Rencana Atap 3D</li>
-                                    <li class="d-block py-2">Rencana Tampak Depan Fasad 3D</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card text-center card-shadow on-hover border-0 mb-4">
-                            <div class="card-body font-14">
-                                <h5 class="mt-3 mb-1 font-weight-medium">Paket 3</h5>
-                                <div class="pricing my-3">
-                                    <span class="monthly display-5">Ro. 75.000</span>
-                                    <span class="monthly display-5">/m<sup>2</sup></span>
-                                </div>
-                                <ul class="list-inline">
-                                    <li class="d-block py-2">Denah Interior </li>
-                                    <li class="d-block py-2">Konsep Rencana Interior</li>
-                                    <li class="d-block py-2">Konsep Rencana Furniture</li>
-                                    <li class="d-block py-2">Visualisasi 3D</li>
-                                    <li class="d-block py-2">Render 3D Interior</li>
-                                </ul>
-                                <div class="bottom-btn">
-                                    <a class="btn btn-success-gradiant btn-md text-white btn-block"
-                                        href="#consult"><span>Konsultasi</span></a>
+                    @foreach ($package as $paket)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card text-center card-shadow on-hover border-0 mb-4">
+                                <div class="card-body font-14">
+                                    @if ($paket->best)
+                                        <span
+                                        class="badge badge-inverse p-2 position-absolute price-badge font-weight-normal">Best
+                                        Seller</span>
+                                    @endif
+                                    <h5 class="mt-3 mb-1">{{ $paket->title }}</h5>
+                                    <div class="pricing my-3">
+                                        <span class="monthly display-5">Rp. {{ number_format($paket->price) }}</span>
+                                        <span class="monthly display-5">/m<sup>2</sup></span>
+                                    </div>
+                                    <ul class="list-inline">
+                                        @foreach ($paket->sub as $sub)
+                                            <li class="d-block py-1">{{ $sub->sub }}</li>
+
+                                        @endforeach
+                                    </ul>
+                                    <div class="bottom-btn">
+                                        <a class="btn btn-success-gradiant btn-md text-white btn-block"
+                                            href="#consult"><span>Konsultasi</span></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -286,6 +247,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+                    <div class="alert d-none" role="alert" id="pesanResponse">
+                        Terjadi Kesalahan
+                    </div>
                     <div class="section-heading text-center mb-60">
                         <h2 class="section-title">Kontak Kami</h2>
                         <p>
@@ -293,27 +257,27 @@
                         </p>
                     </div>
                     <div class="beauly-contact-form">
-                        <form action="https://themejunction.net/html/beauly/demo/contact.php" method="post"
-                            id="ajax_contact" class="form-horizontal">
+                        <form action="{{ route('send-message') }}" method="post" id="send_message" class="form-horizontal">
+                            @csrf
                             <div class="row">
                                 <div class="form-group col-12">
-                                    <input type="text" id="firstname" name="firstname" class="form-control"
+                                    <input type="text" id="firstname" name="name" class="form-control"
                                         placeholder="Nama Lengkap*" required="" />
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="text" id="phone" name="phone" class="form-control"
+                                    <input type="text" id="phone" name="whatsapp" class="form-control"
                                         placeholder="No. Whatsapp*" required="" />
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="text" name="phone" class="form-control"
+                                    <input type="text" name="needed" class="form-control"
                                         placeholder="Jenis Kebutuhan*" required="" />
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="text" name="phone" class="form-control" placeholder="Model*"
+                                    <input type="text" name="model" class="form-control" placeholder="Model*"
                                         required="" />
                                 </div>
                                 <div class="form-group col-12">
-                                    <input type="number" name="phone" class="form-control"
+                                    <input type="number" name="floor" class="form-control"
                                         placeholder="Jumlah Lantai*" required="" />
                                 </div>
                                 <div class="form-group col-12">
@@ -336,8 +300,6 @@
         </div>
     </section>
     <!-- ./ Request section -->
-
-
 
     <!-- Footer area -->
     <footer class="footer-area bg-dark-deep"
@@ -409,6 +371,47 @@
     <script src="{{ asset('front') }}/assets/js/imagesloaded-pkgd.js"></script>
     <script src="{{ asset('front') }}/assets/js/ajax-form.js"></script>
     <script src="{{ asset('front') }}/assets/js/main.js"></script>
+
+    <script>
+        $('#send_message').submit(function(e) {
+            e.preventDefault();
+
+            const url = $(this).attr("action");
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "JSON",
+                success: function(response) {
+                    var title = "";
+                    var icon = "";
+
+                    $('#pesanResponse').removeClass("d-none");
+
+                    if (response.alert == '1') {
+                        $('#send_message')[0].reset();
+                        $('#pesanResponse').addClass("alert-success");
+                        $('#pesanResponse').removeClass("alert-danger");
+                    } else {
+                        $('#pesanResponse').removeClass("alert-success");
+                        $('#pesanResponse').addClass("alert-danger");
+                    }
+
+                    $('#pesanResponse').html(response.message);
+                },
+                error: function(response) {
+                    $('#pesanResponse').removeClass("d-none");
+                    $('#pesanResponse').addClass("alert-danger");
+                    $('#pesanResponse').removeClass("alert-success");
+                    $('#pesanResponse').html(response.message);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

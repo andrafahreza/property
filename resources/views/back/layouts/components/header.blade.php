@@ -1,7 +1,7 @@
 @php
-    // use App\Models\Contact;
-    // $contacts = Contact::latest()->limit(4)->get();
-    // $status = Contact::where('status', false)->get();
+    use App\Models\Message;
+    $contacts = Message::latest()->limit(4)->get();
+    $status = Message::where('read', false)->get();
 @endphp
 
 <div class="iq-sidebar sidebar-double-icon">
@@ -36,16 +36,16 @@
                         </a>
                     </div>
                 </li>
-                {{-- <li>
+                <li>
                     <div class="d-flex align-items-center">
-                        <a href="{{ route('portfolio') }}" class="@if ($page == 'portfolio') active @endif">
-                            <i class="las la-briefcase"></i><span>Portfolio</span>
+                        <a href="{{ route('package') }}" class="@if ($page == 'package') active @endif">
+                            <i class="las la-briefcase"></i><span>Paket</span>
                         </a>
                         <a href="{{ route('message') }}" class="@if ($page == 'message') active @endif">
                             <i class="las la-envelope"></i><span>Message</span>
                         </a>
                     </div>
-                </li> --}}
+                </li>
             </ul>
         </nav>
     </div>
@@ -82,9 +82,9 @@
                         <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ri-notification-line"></i>
-                            {{-- @if ($status->count() > 0)
+                            @if ($status->count() > 0)
                                 <span class="bg-primary dots"></span>
-                            @endif --}}
+                            @endif
                         </a>
                         <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <div class="card shadow-none m-0">
@@ -93,7 +93,7 @@
                                         <h5 class="mb-0">All Notifications</h5>
                                     </div>
                                     <div class="p-3">
-                                        {{-- @foreach ($contacts as $contact)
+                                        @foreach ($contacts as $contact)
                                             <a href="#" class="iq-sub-card">
                                                 <div class="media align-items-center">
                                                     <div class="">
@@ -102,23 +102,23 @@
                                                     </div>
                                                     <div class="media-body ml-3">
                                                         <h6 class="mb-0">
-                                                            {{ $contact->fullname }}
+                                                            {{ $contact->name }}
 
                                                             @if ($contact->status == false)
                                                                 <small class="badge badge-success float-right">New</small>
                                                             @endif
                                                         </h6>
-                                                        <p class="mb-0">{{ $contact->subject }}</p>
+                                                        <p class="mb-0">{{ $contact->needed }}</p>
                                                     </div>
                                                 </div>
                                             </a>
-                                        @endforeach --}}
+                                        @endforeach
                                     </div>
-                                    {{-- <a class="right-ic btn btn-primary btn-block position-relative p-2"
+                                    <a class="right-ic btn btn-primary btn-block position-relative p-2"
                                         href="{{ route('message') }}" role="button">
                                         <div class="dd-icon"><i class="las la-arrow-right mr-0"></i></div>
                                         View All
-                                    </a> --}}
+                                    </a>
                                 </div>
                             </div>
                         </div>

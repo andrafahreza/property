@@ -1,0 +1,198 @@
+@extends('back.layouts.app')
+
+@section('content')
+    <div class="col-lg-12">
+        <a href="{{ route('package') }}" class="btn btn-primary">Kembali</a>
+    </div>
+
+    <div class="col-lg-12 mt-3">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                    <h4 class="card-title">List Paket</h4>
+                </div>
+                <span class="table-add float-right mb-3 mr-2">
+                    <button type="button" class="btn btn-sm bg-primary" data-toggle="modal" data-target=".add_sub_package"
+                        id="btnAddSubPackage">
+                        <i class="ri-add-fill"></i>
+                        <span class="pl-1">Add New</span>
+                    </button>
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tableSubPackage" class="table data-table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>List Paket</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade add_sub_package" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form action="{{ route('save-sub-package', ["id" => $id_package]) }}" method="POST" id="formSubPackage">
+                <div class="modal-content">
+                @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title">Form List Paket</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 mt-2">
+                                <label class="col-form-label" for="photo"> Sub Paket<span class="text-danger">*</span></label>
+                                <input type="text" name="sub" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ asset('back/assets/js/response.js') }}"></script>
+    <script src="{{ asset('back/assets/js/chart-custom.js') }}"></script>
+
+    <script>
+        var table_sub_package;
+
+        let column_datatables_sub_package = [{
+                data: 'DT_RowIndex',
+                name: 'id',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'sub',
+                name: 'sub'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ];
+
+        table_sub_package = $('#tableSubPackage').DataTable({
+            stateSave: true,
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('list-sub-package') }}/" + "{{ $id_package }}",
+                method: "post",
+                data: function(d) {
+                    d._token = $('meta[name="csrf-token"]').attr('content');
+                }
+            },
+            columns: column_datatables_sub_package,
+            'columnDefs': [{
+                'target': column_datatables_sub_package.length - 1,
+                'createdCell': function(td, cellData, rowData, row, col) {
+                    $(td).attr('nowrap', true);
+                }
+            }]
+        });
+
+        $('#btnAddSubPackage').click(function() {
+            $("#formSubPackage")[0].reset();
+        });
+
+        $('#formSubPackage').submit(function(e) {
+            e.preventDefault();
+
+            const url = $(this).attr("action");
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: "post",
+                url: url,
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "JSON",
+                success: function(response) {
+                    var title = "";
+                    var icon = "";
+
+                    if (response.alert == '1') {
+                        title = "Berhasil";
+                        icon = "success";
+
+                        $('.add_sub_package').modal('hide');
+                        $('#formSubPackage')[0].reset();
+                    } else {
+                        title = "Error !";
+                        icon = "error";
+                    }
+
+                    getresponse(icon, response.message, title);
+                    table_sub_package.ajax.reload(null, false);
+                },
+                error: function(response) {
+                    getresponse("error", response.message, "Error !");
+                }
+            });
+        });
+
+        function deleteSubPackage(url) {
+            Swal.fire({
+                title: "Warning!",
+                html: "Are you sure to delete this data?",
+                icon: "warning",
+                showCancelButton: true,
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return fetch(url)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            }
+                            return response.json()
+                        })
+                        .then(data => {
+                            if (data.result == "error") {
+                                Swal.showValidationMessage(data.title);
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            Swal.showValidationMessage("An error occurred in delete data");
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Delete data successfully",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        showCancelButton: false,
+                        willOpen: () => {
+                            Swal.showLoading()
+                        }
+                    }).then((result) => {
+                        table_sub_package.ajax.reload(null, false);
+                    });
+                }
+            })
+        }
+    </script>
+@endsection
